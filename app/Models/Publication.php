@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Publication extends Model
 {
   /*
     |--------------------------------------------------------------------------
@@ -12,7 +12,7 @@ class Post extends Model
     |--------------------------------------------------------------------------
     */
 
-  protected $table = 'posts';
+  protected $table = 'publications';
   // protected $primaryKey = 'id';
   // public $timestamps = false;
   protected $guarded = ['id'];
@@ -25,6 +25,28 @@ class Post extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+
+  /**
+  * Save publications to db.
+  *
+  * @param $publications array of publications
+  *
+  * @return boolean with results
+  * @throws \Exception
+  */
+  public static function publicationsSave($publications) {
+    foreach($publications as $publication) {
+
+      $publicationFind = Publication::where('area_name', $publication['area_name'])->firstWhere('post_id', $publication['post_id']);
+
+      if(empty($publicationFind)) {
+        $publication = Publication::create((array) $publication);
+      }
+    }
+
+    return true;
+  }
 
   /*
     |--------------------------------------------------------------------------

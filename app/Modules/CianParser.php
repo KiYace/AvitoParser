@@ -7,7 +7,7 @@ use App\Exceptions\PublicationsParserException;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 
-class AvitoParser extends AbstractParser
+class CianParser extends AbstractParser
 {
 
   /**
@@ -31,10 +31,12 @@ class AvitoParser extends AbstractParser
     try {
       // Find element from Avito by classname
       $publications = $crawler->filter($elementSelector)->each(function(Crawler $node, $i) use($linkSelector){
+
+        $link = $node->filter($linkSelector)->link()->getUri();
         $publication = [
-          'area_name' => 'avito',
-          'post_id' => $node->attr('id'),
-          'link' => $node->filter($linkSelector)->link()->getUri(),
+          'area_name' => 'cian',
+          'post_id' => self::getIdByUrl($link),
+          'link' => $link,
         ];
 
         return $publication;
@@ -44,6 +46,21 @@ class AvitoParser extends AbstractParser
     }
 
     return $publications;
+  }
+
+  /**
+  * Get id from url.
+  *
+  * @param $link string link to element
+  *
+  * @return string with publication id
+  * @throws \Exception
+  */
+  private static function getIdByUrl($link)
+  {
+    $linkArray = explode('/', $link);
+
+    return $linkArray[5];
   }
 }
 

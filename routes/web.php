@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\AvitoParser;
+use App\Http\Controllers\PublicationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/avito', [AvitoParser::class, 'getPageData']);
+Route::get('/avito', [PublicationController::class, 'loadDataFromDomclick']);

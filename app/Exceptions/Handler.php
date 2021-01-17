@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
           'message' => $e->getMessage(),
         ],
       ];
-      if ($e instanceof PostsParserException) {
+      if ($e instanceof PublicationsParserException) {
         $code = Response::HTTP_BAD_REQUEST;
       }
 
