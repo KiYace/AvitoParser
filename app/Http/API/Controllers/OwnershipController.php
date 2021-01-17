@@ -13,6 +13,10 @@ class OwnershipController extends Controller
    *    operationId="publicationsListAvito",
    *    summary="Публикации",
    *    tags={"Publications"},
+   *    description="Доступные площадки:
+- Авито - 'avito,
+- Циан - 'cian,
+- Домклик - 'domclick'",
    *    @OA\Parameter(
    *      name="area",
    *      in="path",

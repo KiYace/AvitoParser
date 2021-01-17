@@ -12,6 +12,7 @@ paths:
       tags:
         - Publications
       summary: Публикации
+      description: "Доступные площадки:\n- Авито - 'avito,\n- Циан - 'cian,\n- Домклик - 'domclick'"
       operationId: publicationsListAvito
       parameters:
         -
