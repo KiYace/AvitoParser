@@ -51,18 +51,25 @@ class Handler extends ExceptionHandler
     */
     public function render($request, Throwable $e)
     {
-      $code = Response::HTTP_INTERNAL_SERVER_ERROR;
-      $context = [
-        'success' => 'false',
-        'error' => [
-          'code' => empty($e->getCode()) ? 'UNHANDLED_ERROR' : $e->getCode(),
-          'message' => $e->getMessage(),
-        ],
-      ];
-      if ($e instanceof PublicationsParserException) {
-        $code = Response::HTTP_BAD_REQUEST;
+      if ($request->is('api/*')) {
+        $code = Response::HTTP_INTERNAL_SERVER_ERROR;
+        $context = [
+          'success' => 'false',
+          'error' => [
+            'code' => empty($e->getCode()) ? 'UNHANDLED_ERROR' : $e->getCode(),
+            'message' => $e->getMessage(),
+          ],
+        ];
+        if ($e instanceof PublicationsParserException) {
+          $code = Response::HTTP_BAD_REQUEST;
+        }
+        if ($e instanceof MethodNotAllowed) {
+          $code = Response::HTTP_METHOD_NOT_ALLOWED;
+        }
+
+        return response()->json($context, $code);
       }
 
-      return response()->json($context, $code);
+      return parent::render($request, $e);
     }
 }

@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use App\Exceptions\MethodNotAllowed;
+use App\Http\API\Controllers\OwnershipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::fallback(function (Request $request) {
+  throw new MethodNotAllowed('Method not found');
 });
+
+Route::get('/ownership/{area}', [OwnershipController::class, 'publicationsList']);

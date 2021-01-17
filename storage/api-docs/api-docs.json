@@ -1,0 +1,162 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ПАРСИНГ",
+        "description": "REST API парсинга",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://parser.lc/api"
+        }
+    ],
+    "paths": {
+        "/ownership/{area}": {
+            "get": {
+                "tags": [
+                    "Publications"
+                ],
+                "summary": "Публикации",
+                "operationId": "publicationsListAvito",
+                "parameters": [
+                    {
+                        "name": "area",
+                        "in": "path",
+                        "description": "Название площадки",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "result": {
+                                            "properties": {
+                                                "publications": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Publication"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Невалидный запрос",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Сервис не доступен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Ошибка",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Publication": {
+                "title": "Публикация",
+                "required": [
+                    "area_name",
+                    "post_id",
+                    "link"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID публикации в БД",
+                        "type": "integer"
+                    },
+                    "area_name": {
+                        "description": "Название площадки",
+                        "type": "string"
+                    },
+                    "post_id": {
+                        "description": "ID публикации на площадке",
+                        "type": "string"
+                    },
+                    "link": {
+                        "description": "Ссылка на публикацию",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Error": {
+                "title": "Информация об ошибке",
+                "required": [
+                    "code",
+                    "message"
+                ],
+                "properties": {
+                    "code": {
+                        "description": "Код",
+                        "type": "string"
+                    },
+                    "message": {
+                        "description": "Сообщение",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ErrorResponse": {
+                "title": "Ответ от сервера в случае ошибки",
+                "required": [
+                    "success"
+                ],
+                "properties": {
+                    "success": {
+                        "description": "Флаг успеха",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "error": {
+                        "$ref": "#/components/schemas/Error"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
