@@ -126,5 +126,13 @@ return [
       'level' => 'debug',
       'days' => 2,
     ],
+
+    'parser' => [
+      'driver' => 'daily',
+      'tap' => [App\Logging\CustomFormatter::class],
+      'path' => storage_path('logs/parser.log'),
+      'level' => 'debug',
+      'days' => 2,
+    ],
   ],
 ];

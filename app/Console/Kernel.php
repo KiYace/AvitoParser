@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Http\Controllers\PublicationController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call('App\Http\Controllers\PublicationController@loadDataFromAvito')->hourly();
+        $schedule->call('App\Http\Controllers\PublicationController@loadDataFromCian')->hourly();
+        $schedule->call('App\Http\Controllers\PublicationController@loadDataFromAvito')->dailyAt('10:00');
     }
 
     /**

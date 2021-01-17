@@ -7,6 +7,7 @@ use App\Models\Publication;
 use App\Modules\AvitoParser;
 use App\Modules\CianParser;
 use App\Modules\DomclickParser;
+use Illuminate\Support\Facades\Log;
 
 class PublicationController extends Controller
 {
@@ -32,9 +33,10 @@ class PublicationController extends Controller
       try
       {
         Publication::publicationsSave($publications);
+        Log::channel('parser')->info('Successful parsing data from Avito');
       }
       catch (\Exception $e) {
-        // throw new PublicationsParserException("Can't parse the page", 0);
+        Log::channel('parser')->alert("Abort! Can't parse data from Avito");
       }
     }
   }
@@ -52,9 +54,10 @@ class PublicationController extends Controller
       try
       {
         Publication::publicationsSave($publications);
+        Log::channel('parser')->info('Successful parsing data from Cian');
       }
       catch (\Exception $e) {
-        // throw new PublicationsParserException("Can't parse the page", 0);
+        Log::channel('parser')->alert("Abort! Can't parse data from Cian");
       }
     }
   }
@@ -72,9 +75,10 @@ class PublicationController extends Controller
       try
       {
         Publication::publicationsSave($publications);
+        Log::channel('parser')->info('Successful parsing data from Domclick');
       }
       catch (\Exception $e) {
-        // throw new PublicationsParserException("Can't parse the page", 0);
+        Log::channel('parser')->alert("Abort! Can't parse data from Domclick");
       }
     }
   }
